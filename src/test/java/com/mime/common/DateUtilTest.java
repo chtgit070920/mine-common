@@ -23,18 +23,20 @@ public class DateUtilTest {
     private String weekIntStr;
     private  String weekNoStr;
     private  String weekNumStr;
+    private String weekDayNumStr;
 
-    public DateUtilTest(String dateStr,String weekIntStr,String weekNoStr,String weekNumStr){
+    public DateUtilTest(String dateStr,String weekIntStr,String weekNoStr,String weekNumStr,String weekDayNumStr){
         this.dateStr=dateStr;
         this.weekIntStr=weekIntStr;
         this.weekNoStr=weekNoStr;
         this.weekNumStr=weekNumStr;
+        this.weekDayNumStr=weekDayNumStr;
     }
 
     @Parameterized.Parameters
     public static List<Object[]> initParams(){
         return Arrays.asList(new Object[][]{
-                {"20160501","7","1","6"}
+                {"20160501","7","1","6","2"}
         });
     }
 
@@ -50,6 +52,14 @@ public class DateUtilTest {
 
         Integer weekNum=DateUtil.getWeekNum(date);
         Assert.assertEquals(failureMsg(DateUtil.class,"getWeekNum"),weekNumStr,weekNum.toString());
+
+        String year=DateUtil.getYear(date);
+        String month=DateUtil.getMonth(date);
+        Integer ym=Integer.valueOf(year+month);
+
+        Integer weekDayNum=DateUtil.getWeekDayNum(ym,weekNo);
+        Assert.assertEquals(failureMsg(DateUtil.class,"getWeekDayNum"),weekDayNumStr,weekDayNum.toString());
+
     }
 
     public String failureMsg(Class clazz,String method){
