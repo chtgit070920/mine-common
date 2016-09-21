@@ -106,7 +106,7 @@ public class DateUtil extends DateUtils {
 	/**
 	 * 得到 日期星期字符串 格式（E）星期几
 	 */
-	public static Integer getWeekInt(Date d) {
+	public static int getWeekInt(Date d) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(d);
 		int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)-1;

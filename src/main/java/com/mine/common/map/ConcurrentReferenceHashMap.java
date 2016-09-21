@@ -1,7 +1,8 @@
 package com.mine.common.map;
 
-import org.springframework.util.Assert;
-import org.springframework.util.ObjectUtils;
+
+import com.mine.common.Assert;
+import com.mine.common.ObjectUtil;
 
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
@@ -191,7 +192,7 @@ public class ConcurrentReferenceHashMap<K, V> extends AbstractMap<K, V> implemen
     public boolean containsKey(Object key) {
         Reference<K, V> reference = getReference(key, Restructure.WHEN_NECESSARY);
         Entry<K, V> entry = (reference != null ? reference.get() : null);
-        return (entry != null && ObjectUtils.nullSafeEquals(entry.getKey(), key));
+        return (entry != null && ObjectUtil.nullSafeEquals(entry.getKey(), key));
     }
 
     /**
@@ -252,7 +253,7 @@ public class ConcurrentReferenceHashMap<K, V> extends AbstractMap<K, V> implemen
         return doTask(key, new Task<Boolean>(TaskOption.RESTRUCTURE_AFTER, TaskOption.SKIP_IF_EMPTY) {
             
             protected Boolean execute(Reference<K, V> reference, Entry<K, V> entry) {
-                if (entry != null && ObjectUtils.nullSafeEquals(entry.getValue(), value)) {
+                if (entry != null && ObjectUtil.nullSafeEquals(entry.getValue(), value)) {
                     reference.release();
                     return true;
                 }
@@ -266,7 +267,7 @@ public class ConcurrentReferenceHashMap<K, V> extends AbstractMap<K, V> implemen
         return doTask(key, new Task<Boolean>(TaskOption.RESTRUCTURE_BEFORE, TaskOption.SKIP_IF_EMPTY) {
             
             protected Boolean execute(Reference<K, V> reference, Entry<K, V> entry) {
-                if (entry != null && ObjectUtils.nullSafeEquals(entry.getValue(), oldValue)) {
+                if (entry != null && ObjectUtil.nullSafeEquals(entry.getValue(), oldValue)) {
                     entry.setValue(newValue);
                     return true;
                 }
@@ -670,13 +671,13 @@ public class ConcurrentReferenceHashMap<K, V> extends AbstractMap<K, V> implemen
                 return false;
             }
             Map.Entry otherEntry = (Map.Entry) other;
-            return (ObjectUtils.nullSafeEquals(getKey(), otherEntry.getKey()) &&
-                    ObjectUtils.nullSafeEquals(getValue(), otherEntry.getValue()));
+            return (ObjectUtil.nullSafeEquals(getKey(), otherEntry.getKey()) &&
+                    ObjectUtil.nullSafeEquals(getValue(), otherEntry.getValue()));
         }
 
         
         public final int hashCode() {
-            return (ObjectUtils.nullSafeHashCode(this.key) ^ ObjectUtils.nullSafeHashCode(this.value));
+            return (ObjectUtil.nullSafeHashCode(this.key) ^ ObjectUtil.nullSafeHashCode(this.value));
         }
     }
 
@@ -760,7 +761,7 @@ public class ConcurrentReferenceHashMap<K, V> extends AbstractMap<K, V> implemen
                 Reference<K, V> reference = ConcurrentReferenceHashMap.this.getReference(entry.getKey(), Restructure.NEVER);
                 Entry<K, V> other = (reference != null ? reference.get() : null);
                 if (other != null) {
-                    return ObjectUtils.nullSafeEquals(entry.getValue(), other.getValue());
+                    return ObjectUtil.nullSafeEquals(entry.getValue(), other.getValue());
                 }
             }
             return false;
