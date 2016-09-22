@@ -134,7 +134,7 @@ public class DateUtil extends DateUtils {
 	 */
 
 	/**
-	 * 共几周（限定在自然月中）
+	 * 共几周（限定在月中）
 	 */
 	public static int getWeekTotalInMonth(Date d){
 		Date startDayOfMonth=getFirstDayOfMonth(d);//月第一天 日期
@@ -148,7 +148,7 @@ public class DateUtil extends DateUtils {
 	}
 
 	/**
-	 * 第几周（限定在自然月中）
+	 * 第几周（限定在月中）
 	 */
 	public static int getWeekNoInMonth(Date d){
 		Date startDayOfMonth=getFirstDayOfMonth(d);//日所在月第一天
