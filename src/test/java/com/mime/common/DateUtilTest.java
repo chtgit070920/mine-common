@@ -19,24 +19,34 @@ import java.util.List;
 public class DateUtilTest {
 
     private  String dateStr;
-
-    private String weekIntStr;
-    private  String weekNoStr;
-    private  String weekNumStr;
+    private String weekStr;
     private String weekDayNumStr;
+    private  String weekTotalStr;
+    private  String weekNoStr;
+    private String monthDayNumStr;
 
-    public DateUtilTest(String dateStr,String weekIntStr,String weekNoStr,String weekNumStr,String weekDayNumStr){
+
+    public DateUtilTest(String dateStr,
+                        String weekStr,
+                        String weekDayNumStr,
+                        String weekTotalStr,
+                        String weekNoStr,
+                        String monthDayNumStr
+    ){
         this.dateStr=dateStr;
-        this.weekIntStr=weekIntStr;
-        this.weekNoStr=weekNoStr;
-        this.weekNumStr=weekNumStr;
+        this.weekStr=weekStr;
         this.weekDayNumStr=weekDayNumStr;
+        this.weekTotalStr=weekTotalStr;
+        this.weekNoStr=weekNoStr;
+        this.monthDayNumStr=monthDayNumStr;
     }
 
     @Parameterized.Parameters
     public static List<Object[]> initParams(){
         return Arrays.asList(new Object[][]{
-                {"20160501","7","1","6","2"}
+                //日期、周几、所在周天数(限定在月中)、所在月周数、所在月第几周、所在月天数
+                {"20160501","7","1","6","1","31"},
+                {"20160502","1","7","6","2","31"}
         });
     }
 
@@ -44,22 +54,27 @@ public class DateUtilTest {
     public void test1(){
         Date date=DateUtil.string_date(dateStr);
 
-        Integer weekInt=DateUtil.getWeekInt(date);
-        Assert.assertEquals(failureMsg(DateUtil.class,"getWeekInt"),weekIntStr,weekInt.toString());
+        Integer week=DateUtil.getWeek(date);
+        Assert.assertEquals(failureMsg(DateUtil.class,"getWeek"),weekStr,week.toString());
 
-        Integer weekNo=DateUtil.getWeekNo(date);
-        Assert.assertEquals(failureMsg(DateUtil.class,"getWeekNo"),weekNoStr,weekNo.toString());
+        Integer weekTotal=DateUtil.getWeekTotalInMonth(date);
+        Assert.assertEquals(failureMsg(DateUtil.class,"getWeekTotalInMonth"),weekTotalStr,weekTotal.toString());
 
-        Integer weekNum=DateUtil.getWeekNum(date);
-        Assert.assertEquals(failureMsg(DateUtil.class,"getWeekNum"),weekNumStr,weekNum.toString());
+        Integer weekNo=DateUtil.getWeekNoInMonth(date);
+        Assert.assertEquals(failureMsg(DateUtil.class,"getWeekNoInMonth"),weekNoStr,weekNo.toString());
 
-        String year=DateUtil.getYear(date);
-        String month=DateUtil.getMonth(date);
-        Integer ym=Integer.valueOf(year+month);
+        Integer weekDayNum=DateUtil.getWeekDayNumInMonth(date);
+        Assert.assertEquals(failureMsg(DateUtil.class,"getWeekDayNumInMonth"),weekDayNumStr,weekDayNum.toString());
 
-        Integer weekDayNum=DateUtil.getWeekDayNum(ym,weekNo);
-        Assert.assertEquals(failureMsg(DateUtil.class,"getWeekDayNum"),weekDayNumStr,weekDayNum.toString());
+        Integer monthDayNum=DateUtil.getMonthDayNum(date);
+        Assert.assertEquals(failureMsg(DateUtil.class,"getMonthDayNum"),monthDayNumStr,monthDayNum.toString());
 
+        List<Date> result= DateUtil.getWeekDayListInMonth(date);
+        for(Date d:result){
+            System.out.print(DateUtil.date_string(d,"yyyyMMdd"));
+            System.out.print("  ");
+        }
+        System.out.println();
     }
 
     public String failureMsg(Class clazz,String method){
