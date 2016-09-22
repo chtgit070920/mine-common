@@ -51,7 +51,7 @@ public class DateUtilTest {
     }
 
     @Test
-    public void test1(){
+    public void test(){
         Date date=DateUtil.string_date(dateStr);
 
         Integer week=DateUtil.getWeek(date);
