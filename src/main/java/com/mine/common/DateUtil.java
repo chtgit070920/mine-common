@@ -143,8 +143,8 @@ public class DateUtil extends DateUtils {
 		Date endDayOfWeek2=getFirstDayOfWeek(endDateOfMonth);//周一
 
 		int days=daysBetween(startDayOfWeek1,endDayOfWeek2);
-		int weekNum=days/7+1;
-		return weekNum;
+		int weekTotal=days/7+1;
+		return weekTotal;
 	}
 
 	/**
@@ -168,12 +168,12 @@ public class DateUtil extends DateUtils {
 		int days=0;
 		if(weekNo==1){
 			Date startDayOfMonth=DateUtil.getFirstDayOfMonth(d);
-			int weekInt=getWeek(startDayOfMonth);
-			days=7-weekInt+1;
+			int week=getWeek(startDayOfMonth);
+			days=7-week+1;
 		}else if(weekNo==weekTotal){
 			Date endDayOfMonth=DateUtil.getLastDayOfMonth(d);
-			int weekInt=getWeek(endDayOfMonth);
-			days=weekInt;
+			int week=getWeek(endDayOfMonth);
+			days=week;
 		}else{
 			days=7;
 		}
