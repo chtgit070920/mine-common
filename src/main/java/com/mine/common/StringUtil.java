@@ -236,7 +236,7 @@ public class StringUtil {
 	}
 
 	/**
-	 * 包含sum的个数
+	 * 包含sub的个数
 	 */
 	public static int countOccurrencesOf(String str, String sub) {
 		if (str == null || sub == null || str.length() == 0 || sub.length() == 0) {
